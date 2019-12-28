@@ -19,7 +19,6 @@ using json = nlohmann::json;
 
 int main()
 {
-	json jdata;
 	std::ifstream file("items.dat", std::ios::binary | std::ios::ate);
 	int size = file.tellg();
 	char* data = new char[size];
@@ -44,8 +43,7 @@ int main()
 	memPos += 2;
 	memcpy(&itemCount, data + memPos, 4);
 	memPos += 4;
-	jdata["itemsdatVersion"] = itemsdatVersion;
-	jdata["itemCount"] = itemCount;
+	cout << "Itemcount: " << itemCount << "\nitemsdatVersion: " << itemsdatVersion << endl;
 	for (int i=0;i<itemCount;i++) {
 		json j;
 		int itemID = 0;
@@ -305,14 +303,26 @@ int main()
 		j["extraOptions2"] = extraOptions2;
 		j["punchOptions"] = punchOptions;
 		jdata["items"].push_back(j);
+		ofstream items;
+		items.open("items/" + to_string(itemID) + ".json");
+		items << j << endl;
+		items.close();
 	}
-	std::ofstream o("data.json");
-	o << std::setw(4) << jdata << std::endl;
 	cout << "Succesfully decoded" << endl;
 #ifndef __linux__
 	_getch();
 #endif
-	return 0;
+	string answ;
+	cout << "Do you want to delete all items from folder? (Y/N) : ";
+	getline(cin, answ);
+	if (answ == "Y")
+	{
+		for (int i = 0; i < itemCount; i++)
+		remove(("items/" + to_string(i) + ".json").c_str());
+	}
+	else {
+		return 0;
+	}
 }
 
 
