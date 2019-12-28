@@ -33,7 +33,7 @@ int main()
 	else {
 		cout << "Decoding of items data has failed..." << endl;
 #ifndef __linux__
-	_getch();
+		_getch();
 #endif
 		exit(0);
 	}
@@ -46,7 +46,7 @@ int main()
 	memPos += 4;
 	jdata["itemsdatVersion"] = itemsdatVersion;
 	jdata["itemCount"] = itemCount;
-	for (int i=0;i<itemCount;i++) {
+	for (int i = 0; i < itemCount; i++) {
 		json j;
 		int itemID = 0;
 		char editableType = 0;
@@ -109,7 +109,7 @@ int main()
 			memPos += 1;
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				name += data[memPos] ^ (secret[(j + itemID) % secret.length()]);
@@ -117,7 +117,7 @@ int main()
 			}
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				texture += data[memPos];
@@ -151,7 +151,7 @@ int main()
 		maxAmount = data[memPos];
 		memPos += 1;
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				extraFile += data[memPos];
@@ -163,7 +163,7 @@ int main()
 		memcpy(&audioVolume, data + memPos, 4);
 		memPos += 4;
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				petName += data[memPos];
@@ -171,7 +171,7 @@ int main()
 			}
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				petPrefix += data[memPos];
@@ -179,7 +179,7 @@ int main()
 			}
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				petSuffix += data[memPos];
@@ -187,7 +187,7 @@ int main()
 			}
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				petAbility += data[memPos];
@@ -228,7 +228,7 @@ int main()
 		memcpy(&isRayman, data + memPos, 2);
 		memPos += 2;
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				extraOptions += data[memPos];
@@ -236,7 +236,7 @@ int main()
 			}
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				texture2 += data[memPos];
@@ -244,7 +244,7 @@ int main()
 			}
 		}
 		{
-			int16_t strLen = *(int16_t*)&data[memPos];
+			int16_t strLen = *(int16_t*)& data[memPos];
 			memPos += 2;
 			for (int j = 0; j < strLen; j++) {
 				extraOptions2 += data[memPos];
@@ -252,9 +252,9 @@ int main()
 			}
 		}
 		memPos += 80;
-		if(itemsdatVersion >= 11) {
+		if (itemsdatVersion >= 11) {
 			{
-				int16_t strLen = *(int16_t*)&data[memPos];
+				int16_t strLen = *(int16_t*)& data[memPos];
 				memPos += 2;
 				for (int j = 0; j < strLen; j++) {
 					punchOptions += data[memPos];
@@ -262,8 +262,14 @@ int main()
 				}
 			}
 		}
-		if (i != itemID)
+		if (i != itemID) {
 			cout << "Item are unordered!" << endl;
+		}
+
+		/*  show  current  decompiled   item */
+		cout << "Decompiling: " + name + " with  ID: " + to_string(itemID) + "." << endl;
+		
+		
 		j["itemID"] = itemID;
 		j["hitSoundType"] = hitSoundType;
 		j["name"] = name;
@@ -304,15 +310,22 @@ int main()
 		j["texture2"] = texture2;
 		j["extraOptions2"] = extraOptions2;
 		j["punchOptions"] = punchOptions;
-		jdata["items"].push_back(j);
+
+		/* Credit to Byko  */
+		ofstream items;
+		items.open("items/" + to_string(itemID) + ".json");
+		items << j << endl;
+		items.close();
+
+		/*  output  information */
+		ofstream items2;
+		items2.open("info.json");
+		items2 << jdata << endl;
+		items2.close();
 	}
-	std::ofstream o("data.json");
-	o << std::setw(4) << jdata << std::endl;
 	cout << "Succesfully decoded" << endl;
 #ifndef __linux__
 	_getch();
 #endif
 	return 0;
 }
-
-
