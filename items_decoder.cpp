@@ -262,6 +262,10 @@ int main()
 				}
 			}
 		}
+		
+		if(itemsdatVersion >= 12) // 3.51
+		memPos += 13;
+		
 		if (i != itemID)
 			cout << "Item are unordered!" << endl;
 		j["itemID"] = itemID;
