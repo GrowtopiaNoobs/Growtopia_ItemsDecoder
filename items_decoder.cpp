@@ -22,6 +22,10 @@ int main()
 	json jdata;
 	std::ifstream file("items.dat", std::ios::binary | std::ios::ate);
 	int size = file.tellg();
+	if(size == -1) {
+		cout << "Failed to open file, are you sure that you have items.dat in current directory?" << std::endl;
+		return 0;
+	}
 	char* data = new char[size];
 	file.seekg(0, std::ios::beg);
 
@@ -261,6 +265,10 @@ int main()
 					memPos++;
 				}
 			}
+		}
+		if(itemsdatVersion >= 12) {
+			// TODO: find what those data mean
+			memPos += 13;
 		}
 		if (i != itemID)
 			cout << "Item are unordered!" << endl;
