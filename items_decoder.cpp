@@ -271,7 +271,7 @@ int main()
 			memPos += 13;
 		}
                 If (itemsdatVersion >= 13) {
-                        memPos += 4;
+                      memPos += 4;
                 }
 		if (i != itemID)
 			cout << "Item are unordered!" << endl;
