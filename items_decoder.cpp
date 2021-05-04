@@ -270,7 +270,7 @@ int main()
 			// TODO: find what those data mean
 			memPos += 13;
 		}
-                If (itemsdatVersion >= 13) {
+                if(itemsdatVersion >= 13) {
                       memPos += 4;
                 }
 		if (i != itemID)
