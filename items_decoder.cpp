@@ -144,7 +144,7 @@ int main()
 		memPos += 1;
 		collisionType = data[memPos];
 		memPos += 1;
-		breakHits = data[memPos];
+		breakHits = data[memPos] / 6;
 		memPos += 1;
 		memcpy(&dropChance, data + memPos, 4);
 		memPos += 4;
