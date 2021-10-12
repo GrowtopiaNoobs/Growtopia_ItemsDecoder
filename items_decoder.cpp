@@ -67,7 +67,7 @@ int main()
 		char spreadType = 0;
 		char isStripeyWallpaper = 0;
 		char collisionType = 0;
-		char breakHits = 0;
+		unsigned char breakHits = 0;
 		int dropChance = 0;
 		char clothingType = 0;
 		int16_t rarity = 0;
