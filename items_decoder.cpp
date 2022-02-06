@@ -67,7 +67,7 @@ int main()
 		char spreadType = 0;
 		char isStripeyWallpaper = 0;
 		char collisionType = 0;
-		char breakHits = 0;
+		unsigned char breakHits = 0;
 		int dropChance = 0;
 		char clothingType = 0;
 		int16_t rarity = 0;
@@ -144,7 +144,7 @@ int main()
 		memPos += 1;
 		collisionType = data[memPos];
 		memPos += 1;
-		breakHits = data[memPos];
+		breakHits = data[memPos]; // divided by 6 to get signed/correct breakHits
 		memPos += 1;
 		memcpy(&dropChance, data + memPos, 4);
 		memPos += 4;
@@ -266,15 +266,11 @@ int main()
 				}
 			}
 		}
-		if(itemsdatVersion >= 12) {
-			// TODO: find what those data mean
-			memPos += 13;
-		}
-                If (itemsdatVersion >= 13) {
-                      memPos += 4;
-                }
-		if (i != itemID)
-			cout << "Item are unordered!" << endl;
+		if (itemsdatVersion >= 12) memPos += 13; // TODO: find what those data mean
+		if (itemsdatVersion >= 13) memPos += 4; // TODO: find what those data mean
+		if (itemsdatVersion >= 14) memPos += 4; // TODO: find what those data mean
+		if (i != itemID) cout << "Item are unordered!" << endl;
+		
 		j["itemID"] = itemID;
 		j["hitSoundType"] = hitSoundType;
 		j["name"] = name;
