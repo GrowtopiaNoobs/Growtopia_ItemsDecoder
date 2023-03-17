@@ -266,13 +266,14 @@ int main()
 				}
 			}
 		}
-		if(itemsdatVersion >= 12) {
-			// TODO: find what those data mean
-			memPos += 13;
+		if (itemsdatVersion >= 12) memPos += 13; // TODO: find what those data mean
+		if (itemsdatVersion >= 13) memPos += 4; // TODO: find what those data mean
+		if (itemsdatVersion >= 14) memPos += 4; // TODO: find what those data mean
+		if (itemsdatVersion >= 15) {
+			memPos += 25;
+			int16_t strLen = *(int16_t*)&data[memPos];
+            		memPos += 2 + strLen;
 		}
-                If (itemsdatVersion >= 13) {
-                      memPos += 4;
-                }
 		if (i != itemID)
 			cout << "Item are unordered!" << endl;
 		j["itemID"] = itemID;
